@@ -1,0 +1,24 @@
+#paper {
+    width: 100vw;
+    height: 100vh;
+    border: 1px solid black;
+    position: relative;
+}
+#node-details {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    max-width: 400px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+pre {
+    white-space: pre-wrap; /* Ensure the text wraps nicely */
+    word-wrap: break-word; /* Prevent long words from breaking the layout */
+}
+.hover-highlight {
+    cursor: pointer;
+}
