@@ -52,7 +52,7 @@ export const createLinks = (state_machine, nodes, graph) => {
 
 
 
-export function createLink(source, target, labelText, graph) {
+export const createLink = (source, target, labelText, graph) => {
     const link = new joint.shapes.standard.Link()
     link.source(source); 
     link.target(target); 

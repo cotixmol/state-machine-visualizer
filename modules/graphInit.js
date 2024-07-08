@@ -1,5 +1,5 @@
 import { createNodes, createLinks } from './nodeLink.js';
-import { layoutGraph } from './layout.js';
+import { improveLayout } from './improveLayout.js';
 import { addEventHandlers } from './eventHandlers.js';
 
 export const initializeGraph = (state_machine) => {
@@ -15,6 +15,6 @@ export const initializeGraph = (state_machine) => {
 
     const nodes = createNodes(state_machine, graph);
     createLinks(state_machine, nodes, graph);
-    layoutGraph(graph, paper); // Layout the graph using the layout function
+    improveLayout(graph, paper); // Layout the graph using the layout function
     addEventHandlers(paper); // Add event handlers to the paper for interactive functionalities
 }
