@@ -15,42 +15,29 @@ export const createNode = (state, graph) => {
 
 // LINKS (CONNECTION BETWEEN NODES) CREATION
 export const createLinks = (state_machine, nodes, graph) => {
-    let sourceNode;
-    let targetNode;
-    let labelText;
-
     state_machine.forEach(state => {
-        if (state.routing && state.routing.route) {
-            state.routing.route.forEach(route_element => {
-                
-                labelText = route_element.response;
-                const next_flow = route_element.next_flow;
-                const route_response = route_element.response;
+        const { routing, next_flow, name } = state;
 
-                sourceNode = nodes.find(node => node.attr('nodeData').name === state.name);
-
-                if (sourceNode && next_flow) {
-                    targetNode = nodes.find(node => node.attr('nodeData').name === next_flow);
-
-                } else if (sourceNode && route_response === "UNKNOWN") { 
-                    
-                    const targetNodeData = {
-                        name: 'UNKNOWN',
-                        ...route_element
-                    };
-
-                    targetNode = createNode(targetNodeData, graph);
-
-                } 
-
-                createLink(sourceNode, targetNode, labelText, graph); 
-
+        if (routing && routing.route) {
+            routing.route.forEach(route_element => {
+                const { next_flow: routeNextFlow, response } = route_element;
+                if (routeNextFlow) {
+                    const sourceNode = nodes.find(node => node.attr('nodeData').name === name);
+                    const targetNode = nodes.find(node => node.attr('nodeData').name === routeNextFlow);
+                    if (sourceNode && targetNode) {
+                        createLink(sourceNode, targetNode, response, graph);
+                    }
+                }
             });
+        } else if (next_flow) { // General case for any state with next_flow at the root level
+            const sourceNode = nodes.find(node => node.attr('nodeData').name === name);
+            const targetNode = nodes.find(node => node.attr('nodeData').name === next_flow);
+            if (sourceNode && targetNode) {
+                createLink(sourceNode, targetNode, name, graph);
+            }
         }
     });
-}
-
-
+};
 
 export const createLink = (source, target, labelText, graph) => {
     const link = new joint.shapes.standard.Link()
